@@ -279,5 +279,14 @@ SET time =
 			ELSE time
 		END;
 
+// adding primary keys and connecting the tables in the database
+ALTER TABLE analytics ADD COLUMN visit_number SERIAL
 
+ALTER TABLE analytics
+ADD CONSTRAINT pk_analytics PRIMARY KEY(visit_id, visit_number)
+
+ALTER TABLE all_sessions ADD COLUMN visit_number SERIAL
+
+ALTER TABLE all_sessions
+ADD CONSTRAINT pk_all_sessions PRIMARY KEY(visit_id, visit_number)
 
