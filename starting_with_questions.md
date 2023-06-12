@@ -5,10 +5,16 @@ Answer the following questions and provide the SQL queries used to find the answ
 
 
 SQL Queries:
+SELECT a.country, a.city, t.total_transaction_revenue FROM all_sessions AS a
+JOIN transactions AS t ON a.transaction_id = t.transaction_id
+ORDER BY t.total_transaction_revenue DESC
 
 
+Answer: 
+Countries:                      City:
+United States: $10154.80        Sunnyvale: $6492.40. **DISCLAIMER --> city name for top USA was NULL
+Australia: $3580.00             Sydney: $3580.00
 
-Answer:
 
 
 
