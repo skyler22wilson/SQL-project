@@ -141,7 +141,14 @@ SET time =
 UPDATE all_sessions
 SET product_revenue = ROUND(product_revenue/100000, 2)
 
-// created a new table to separate product purchase data
+// created a new table to separate transactions from all_sessions
+CREATE TABLE transactions (
+	transaction_id VARCHAR PRIMARY KEY,
+	transactions VARCHAR,
+	transaction_revenue NUMERIC,
+	total_transaction_revenue NUMERIC,
+	currency VARCHAR
+)
 
 // adding primary keys and connecting the tables in the database
 ALTER TABLE analytics ADD COLUMN visit_number SERIAL
