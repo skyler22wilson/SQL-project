@@ -9,143 +9,6 @@ What issues will you address by cleaning the data?
 Queries:
 Below, provide the SQL queries you used to clean your data.
 
-//was unable to upload the CSV files correctly w/o the column names matchng exactly, thus, this process of renaming had to be done for most columns in every table
-
-ALTER TABLE analytics
-RENAME COLUMN "visitNumber" TO visit_number;
-
-ALTER TABLE analytics
-RENAME COLUMN "visitId" TO visit_id;
-
-ALTER TABLE analytics
-RENAME COLUMN "visitStartTime" TO visit_start_time;
-
-ALTER TABLE analytics
-RENAME COLUMN "userid" TO user_id;
-
-ALTER TABLE analytics
-RENAME COLUMN "channelGrouping" TO channel_grouping;
-
-ALTER TABLE analytics
-RENAME COLUMN "socialEngagementType" TO social_engagement_type;
-
-ALTER TABLE analytics
-RENAME COLUMN "pageviews" TO pageviews;
-
-ALTER TABLE analytics
-RENAME COLUMN "timeonsite" TO time_on_site;
-
-ALTER TABLE products
-RENAME COLUMN "orderedQuantity" TO ordered_quantity;
-
-ALTER TABLE products
-RENAME COLUMN "stockLevel" TO stock_level;
-
-ALTER TABLE products
-RENAME COLUMN "restockingLeadTime" TO restocking_lead_time;
-
-ALTER TABLE products
-RENAME COLUMN "sentimentMagnitude" TO sentiment_magnitude;
-
-ALTER TABLE products
-RENAME COLUMN "sentimentScore" TO sentiment_score;
-
-ALTER TABLE all_sessions
-RENAME COLUMN "channelGrouping" TO channel_grouping;
-
-ALTER TABLE all_sessions
-RENAME COLUMN "totalTransactionRevenue" TO total_transaction_revenue;
-
-ALTER TABLE all_sessions
-RENAME COLUMN "timeOnSite" TO time_on_site;
-
-ALTER TABLE all_sessions
-RENAME COLUMN "pageviews" TO page_views;
-
-ALTER TABLE all_sessions
-RENAME COLUMN "sessionQualityDim" TO session_quality
-
-ALTER TABLE all_sessions
-RENAME COLUMN "visitId" TO visit_id
-
-ALTER TABLE all_sessions
-RENAME COLUMN "productRefundAmount" TO product_refund_amount
-
-ALTER TABLE all_sessions
-RENAME COLUMN "productQuantity" TO product_quantity
-
-ALTER TABLE all_sessions
-RENAME COLUMN "productPrice" TO product_price
-
-ALTER TABLE all_sessions
-RENAME COLUMN "productRevenue" TO product_revenue
-
-ALTER TABLE all_sessions
-RENAME COLUMN "productSKU" TO product_sku
-
-ALTER TABLE all_sessions
-RENAME COLUMN "v2ProductName" TO product_name
-
-ALTER TABLE all_sessions
-RENAME COLUMN "v2ProductCategory" TO product_category
-
-ALTER TABLE all_sessions
-RENAME COLUMN "productVariant" TO product_variant
-
-ALTER TABLE all_sessions
-RENAME COLUMN "currencyCode" TO currency
-
-ALTER TABLE all_sessions
-RENAME COLUMN "itemQuantity" TO item_quantity
-
-ALTER TABLE all_sessions
-RENAME COLUMN "itemRevenue" TO item_revenue
-
-ALTER TABLE all_sessions
-RENAME COLUMN "transactionRevenue" TO transaction_revenue
-
-ALTER TABLE all_sessions
-RENAME COLUMN "transactionId" TO transaction_id
-
-ALTER TABLE all_sessions
-RENAME COLUMN "pageTitle" TO page_title
-
-ALTER TABLE all_sessions
-RENAME COLUMN "searchKeyword" TO search_keyword
-
-ALTER TABLE all_sessions
-RENAME COLUMN "pagePathLevel1" TO page_path
-
-ALTER TABLE all_sessions
-RENAME COLUMN "eCommerceAction_type" TO action_type
-
-ALTER TABLE all_sessions
-RENAME COLUMN "eCommerceAction_step" TO action_step
-
-ALTER TABLE all_sessions
-RENAME COLUMN "eCommerceAction_option" TO action_option
-
-ALTER TABLE all_sessions
-RENAME COLUMN "fullVisitorId" TO full_visitor_id
-
-ALTER TABLE sales_by_sku
-RENAME COLUMN "productSKU" TO product_sku
-
-ALTER TABLE sales_report
-RENAME COLUMN "productSKU" TO product_sku
-
-ALTER TABLE sales_report
-RENAME COLUMN "stockLevel" TO stock_level
-
-ALTER TABLE sales_report
-RENAME COLUMN "restockingLeadTime" TO restocking_lead_time
-
-ALTER TABLE sales_report
-RENAME COLUMN "sentimentScore" TO sentiment_score
-
-ALTER TABLE sales_report
-RENAME COLUMN "sentimentMagnitude" TO sentiment_magnitude
-
 //set to the same value as the visitor id --> no way of setting a timestamp that made sense
 ALTER TABLE analytics
 DROP visit_start_time
@@ -257,11 +120,11 @@ SET
                       
 // replaced city with country if city was null or not equal to a city name
 UPDATE all_sessions
-SET
+SET city = 
 	CASE 
 		WHEN city = 'not available in demo dataset' OR city IS NULL 
 		AND country IS NOT NULL
-		THEN city = country
+		THEN country
 	ELSE city
 END
 
@@ -271,7 +134,8 @@ ALTER TABLE all_sessions
 DROP item_revenue,
 DROP item_quantity,
 DROP search_keyword,
-DROP transaction_revenue //redundant --> returned same values as total_transaction_revenue
+DROP refund_amount
+
 
 SET time = 
 		CASE 
