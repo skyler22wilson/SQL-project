@@ -279,6 +279,16 @@ SET time =
 			ELSE time
 		END;
 
+UPDATE all_sessions
+SET product_revenue = ROUND(product_revenue/100000, 2)
+
+// created a new table to separate product purchase data
+DELETE FROM product_purchases
+WHERE (product_sku, product_revenue) IN
+(SELECT product_sku, product_revenue FROM product_purchases
+GROUP BY product_sku, product_revenue
+HAVING COUNT(*) > 1)
+
 // adding primary keys and connecting the tables in the database
 ALTER TABLE analytics ADD COLUMN visit_number SERIAL
 
