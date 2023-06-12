@@ -31,7 +31,6 @@ DROP COLUMN visitor_id
 SELECT COUNT(*) FROM analytics
 WHERE user_id IS NOT NULL
 
-DELETE FROM all_sessions WHERE visitor_id = 'fullVisitorId'
 
 
 ALTER TABLE analytics
@@ -97,26 +96,22 @@ ALTER COLUMN ecommerce_step TYPE SMALLINT USING ecommerce_step::SMALLINT
 UPDATE all_sessions
 SET time_on_site = CAST(time_on_site || ' hours' AS INTERVAL)::TIME,
 	time = CAST(time || 'hours' AS INTERVAL)::TIME,
-	product_revenue = product_quantity * product_price
-  
-  UPDATE all_sessions
-SET 
-    city = CASE
-                WHEN city = '(not set)' THEN NULL
-                ELSE city
-            END,
-    country = CASE
-                WHEN country = '(not set)' THEN NULL
-                ELSE country
-              END,
-    variant = CASE
-                WHEN variant = '(not set)' THEN NULL
-                ELSE variant
-              END,
-    product_category = CASE
-                        WHEN product_category = '(not set)' THEN NULL
-                        ELSE product_category
-                      END;
+	    city = CASE
+			WHEN city = '(not set)' THEN NULL
+			ELSE city
+		    END,
+	    country = CASE
+			WHEN country = '(not set)' THEN NULL
+			ELSE country
+		      END,
+	    variant = CASE
+			WHEN variant = '(not set)' THEN NULL
+			ELSE variant
+		      END,
+	    product_category = CASE
+				WHEN product_category = '(not set)' THEN NULL
+				ELSE product_category
+			      END;
                       
 // replaced city with country if city was null or not equal to a city name
 UPDATE all_sessions
@@ -147,11 +142,6 @@ UPDATE all_sessions
 SET product_revenue = ROUND(product_revenue/100000, 2)
 
 // created a new table to separate product purchase data
-DELETE FROM product_purchases
-WHERE (product_sku, product_revenue) IN
-(SELECT product_sku, product_revenue FROM product_purchases
-GROUP BY product_sku, product_revenue
-HAVING COUNT(*) > 1)
 
 // adding primary keys and connecting the tables in the database
 ALTER TABLE analytics ADD COLUMN visit_number SERIAL
