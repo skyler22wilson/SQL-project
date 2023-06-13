@@ -31,6 +31,14 @@ JOIN product_details pd ON pd.unique_id = a.unique_id
 GROUP BY a.country, a.city
 ORDER BY avg_quantity DESC
 
+//Average with products ordered
+SELECT a.country, a.city, ROUND(AVG(p.ordered_quantity), 2) AS avg_quantity_ordered 
+FROM all_sessions a
+JOIN product_details pd ON pd.unique_id = a.unique_id
+JOIN products p ON p.sku = pd.product_sku
+GROUP BY a.country, a.city
+ORDER BY avg_quantity_ordered DESC
+
 //Collective average
 SELECT ROUND(AVG(product_quantity), 2) AS avg_quantity 
 FROM product_details
