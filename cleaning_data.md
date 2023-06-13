@@ -57,6 +57,20 @@ UPDATE analytics
 SET unit_price = ROUND(unit_price, 2), 
 	revenue = units_sold * unit_price
 
+//converting visit_start_time to a TIMESTAMP
+ALTER TABLE analytics
+ADD COLUMN new_visit_start_time TIMESTAMP;
+
+UPDATE analytics
+SET new_visit_start_time = TO_TIMESTAMP(visit_start_time::bigint);
+
+ALTER TABLE analytics
+DROP COLUMN visit_start_time;
+
+
+ALTER TABLE analytics
+RENAME COLUMN new_visit_start_time TO visit_start_time;
+
 //convberting data types in sales_by_sku
 ALTER TABLE sales_by_sku
 ALTER COLUMN total_ordered TYPE SMALLINT USING total_ordered::SMALLINT
@@ -168,4 +182,7 @@ ADD CONSTRAINT pk_all_sessions PRIMARY KEY(visit_id, visit_number)
 //cleaning the product details table
 DELETE FROM product_details
 WHERE visitor_id IS NULL;
+
+ALTER TABLE all_sessions
+ADD FOREIGN KEY(transaction_id) REFERENCES transactions(transaction_id)
 
