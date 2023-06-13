@@ -1,6 +1,6 @@
 Question 1: 
 
-SQL Queries:
+SQL Queries: What is the average number of pages looked through per visitor?
 
 Answer: 
 
