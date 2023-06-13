@@ -1,17 +1,13 @@
 What issues will you address by cleaning the data?
 1) Re-name certain columns where the column name does not make sense or is difficult to reference in a query
 2) correct the data types for the columns. I imported all of the columns as charachter varying in order to make importing the data easier.
-3) Normalize the database by assigning primary keys (if not already assigned), removing redundant columns/data and removing partial dependancies
+3) Normalize the database by assigning primary keys (if not already assigned), removing redundant columns/data and removing partial dependancies where possible
 
 
 
 
 Queries:
 Below, provide the SQL queries you used to clean your data.
-
-//set to the same value as the visitor id --> no way of setting a timestamp that made sense
-ALTER TABLE analytics
-DROP visit_start_time
 
 //Begin the process of normalyzing the database
 
@@ -42,6 +38,7 @@ ALTER COLUMN visit_id TYPE INT USING visit_id::INT,
 ALTER COLUMN page_views TYPE SMALLINT USING page_views::SMALLINT
 ALTER COLUMN bounces TYPE SMALLINT USING bounces::SMALLINT
 ALTER COLUMN revenue TYPE NUMERIC USING revenue::NUMERIC
+ALTER COLUMN time_on_site TYPE TIME USING time_on_site::TIME
 
 UPDATE analytics
 SET time_on_site = CAST(time_on_site || ' hours' AS INTERVAL)::TIME,
@@ -136,6 +133,9 @@ SET city =
 		THEN country
 	ELSE city
 END
+
+UPDATE all_sessions
+SET type = LOWER(type)
 
 SELECT item_quantity, item_revenue FROM all_sessions WHERE item_quantity IS NOT NULL OR item_revenue IS NOT NULL
 
