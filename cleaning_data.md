@@ -161,3 +161,11 @@ ALTER TABLE all_sessions ADD COLUMN visit_number SERIAL
 ALTER TABLE all_sessions
 ADD CONSTRAINT pk_all_sessions PRIMARY KEY(visit_id, visit_number)
 
+//created a transactions table and a product_details table, 
+
+// Created a unique_id for all_sessions and product_id that i could connect the two databases to
+
+//cleaning the product details table
+DELETE FROM product_details
+WHERE visitor_id IS NULL;
+
