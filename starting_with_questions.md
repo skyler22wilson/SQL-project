@@ -25,12 +25,15 @@ Australia: $3580.00             Sydney: $3580.00
 SQL Queries:
 
 //Average per city and country
-SELECT country, city, ROUND(AVG(product_quantity), 2) AS avg_quantity FROM all_sessions
-GROUP BY country, city
+SELECT a.country, a.city, ROUND(AVG(pd.product_quantity), 2) AS avg_quantity 
+FROM all_sessions a
+JOIN product_details pd ON pd.unique_id = a.unique_id
+GROUP BY a.country, a.city
 ORDER BY avg_quantity DESC
 
 //Collective average
-AS total_avg
+SELECT ROUND(AVG(product_quantity), 2) AS avg_quantity 
+FROM product_details
 
 Answer: 0.01
 
@@ -103,13 +106,35 @@ Answer:
 
 
 
-
-
 **Question 5: Can we summarize the impact of revenue generated from each city/country?**
 
 SQL Queries:
+//SUM of totala revenue by city and country
+SELECT a.city, a.country, SUM(t.total_transaction_revenue)
+FROM all_sessions a
+JOIN transactions t ON t.transaction_id = a.transaction_id
+GROUP BY a.city, a.country
 
+//SUM of totala revenue by country
+SELECT a.country, SUM(t.total_transaction_revenue)
+FROM all_sessions a
+JOIN transactions t ON t.transaction_id = a.transaction_id
+GROUP BY a.country
 
+//SUM of totala revenue by city
+SELECT a.city, SUM(t.total_transaction_revenue)
+FROM all_sessions a
+JOIN transactions t ON t.transaction_id = a.transaction_id
+GROUP BY a.city
+
+//Summary statistics on total revenue
+SELECT a.city, a.country, 
+MAX(t.total_transaction_revenue) AS max_revenue, 
+MIN(t.total_transaction_revenue) AS min_revenue,
+ROUND(AVG(t.total_transaction_revenue), 2) AS avg_revenue
+FROM all_sessions a
+JOIN transactions t ON t.transaction_id = a.transaction_id
+GROUP BY a.city, a.country
 
 
 Answer:
