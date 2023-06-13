@@ -80,6 +80,10 @@ ALTER COLUMN sentiment_score TYPE FLOAT USING sentiment_score::FLOAT,
 ALTER COLUMN sentiment_magnitude TYPE FLOAT USING sentiment_magnitude::FLOAT, 
 ALTER COLUMN restocking_lead_time TYPE SMALLINT USING restocking_lead_time::SMALLINT
 
+ALTER TABLE products
+DROP sentiment_score,
+DROP sentiment_magnitude
+
 //converting datatypes for sales_report
 ALTER TABLE sales_report
 ALTER COLUMN total_ordered TYPE SMALLINT USING total_ordered::SMALLINT, 
@@ -87,6 +91,9 @@ ALTER COLUMN stock_level TYPE SMALLINT USING stock_level::SMALLINT,
 ALTER COLUMN sentiment_score TYPE FLOAT USING sentiment_score::FLOAT,
 ALTER COLUMN sentiment_magnitude TYPE FLOAT USING sentiment_magnitude::FLOAT, 
 ALTER COLUMN restocking_lead_time TYPE SMALLINT USING restocking_lead_time::SMALLINT
+
+ALTER TABLE sales_report
+DROP restocking_lead_time
 
 //converting datatypes in all_sessions
 ALTER TABLE all_sessions
