@@ -5,9 +5,14 @@ Answer the following questions and provide the SQL queries used to find the answ
 
 
 SQL Queries:
-SELECT a.country, a.city, t.total_transaction_revenue FROM all_sessions AS a
-JOIN transactions AS t ON a.transaction_id = t.transaction_id
-ORDER BY t.total_transaction_revenue DESC
+
+--Elected to filter out columns where the city was = country since it was NULL prior and when the revenues werent 0 to provide a better picture of the data
+
+SELECT city, country, SUM(total_transaction_revenue) total_revenue FROM all_sessions
+WHERE city != country
+GROUP BY city, country
+HAVING SUM(total_transaction_revenue) > 0
+ORDER BY total_revenue DESC
 
 
 Answer: 
