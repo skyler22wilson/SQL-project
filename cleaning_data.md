@@ -14,7 +14,7 @@ Below, provide the SQL queries you used to clean your data.
 DELETE FROM analytics WHERE visit_number = 'visitNumber';
 DELETE FROM sales_by_sku WHERE product_sku = 'productSKU';
 
--- Remove columns with all NULL data or redundancy from analytics table
+-- Remove columns with all NULL data or redundancy from all tables
 ALTER TABLE analytics DROP COLUMN IF EXISTS user_id; -- NULL
 ALTER TABLE analytics DROP COLUMN IF EXISTS visit_id; -- redundant
 ALTER TABLE all_sessions DROP COLUMN IF EXISTS visit_id --redundant
@@ -89,4 +89,26 @@ ALTER TABLE all_sessions
     ALTER COLUMN product_price TYPE NUMERIC USING product_price::NUMERIC,
     ALTER COLUMN product_revenue TYPE NUMERIC USING product_revenue::NUMERIC,
     ALTER COLUMN product_quantity TYPE SMALLINT USING product_quantity::SM
+    ALTER COLUMN time TYPE TIME USING time::TIME
+    ALTER COLUMN time_on_site TYPE TIME USING time::TIME
+    
+ --After converting both time and time_on_site from VARCHAR to TIME i noticed that there were several values of 00:00:00 so a set those to null
+    
+UPDATE all_sessions
+SET time_on_site =  
+	CASE
+		WHEN time_on_site = '00:00:00' THEN NULL
+		ELSE time_on_site
+	END;
+    
+ UPDATE all_sessions
+SET time =  
+	CASE
+		WHEN time = '00:00:00' THEN NULL
+		ELSE time
+	END;
+
+    
+   
+
 
