@@ -118,6 +118,20 @@ SELECT a.visitor_id, a.table_name AS analytics_table, b.table_name AS all_sessio
   
   -- I want to look at data completeness in the context of what information in each table is absolutely necessary or relied upon in other tables, what data could be useful for further analysis that was not within the scope of this particular project and whether removing NULL values from columns and tables to ensure greater completeness in the tables would affect data integrity. 
   
+-- I noticed the ecommerce_option adn ecommerce_step columns were related so I completed both columns based on the values in each table
+
+UPDATE all_sessions
+SET ecommerce_option = 
+	CASE
+		WHEN ecommerce_step = 1 THEN 'Billing and Shipping'
+		WHEN ecommerce_step = 2 THEN 'Payment'
+		WHEN ecommerce_step = 3 THEN 'Review'
+		ELSE ecommerce_option
+	END;
+	
+	
+
+  
   
 
 
