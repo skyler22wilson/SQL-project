@@ -91,6 +91,7 @@ ALTER TABLE all_sessions
     ALTER COLUMN product_quantity TYPE SMALLINT USING product_quantity::SM
     ALTER COLUMN time TYPE TIME USING time::TIME
     ALTER COLUMN time_on_site TYPE TIME USING time::TIME
+    ALTER COLUMN ecommerce_step TYPE SMALLINT USING ecommerce_step::SMALLINT
     
  --After converting both time and time_on_site from VARCHAR to TIME i noticed that there were several values of 00:00:00 so a set those to null
     
