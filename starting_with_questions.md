@@ -11,9 +11,7 @@ ORDER BY t.total_transaction_revenue DESC
 
 
 Answer: 
-Countries:                      City:
-United States: $10154.80        Sunnyvale: $6492.40. **DISCLAIMER --> city name for top USA was NULL
-Australia: $3580.00             Sydney: $3580.00
+
 
 
 
