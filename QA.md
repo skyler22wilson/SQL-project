@@ -147,6 +147,15 @@ SET time_on_site = time_on_site / 60
     transaction_revenue = transaction_revenue / 100000
     product_revenue = product_revenue / 100000
 	
+Since many queries and insights are dependant on location I deleted all rows where country was NULL and if city was NULL I inserted the country
+DELETE FROM all_sessions WHERE country IS NULL;
+
+UPDATE all_sessions
+SET city = 
+	CASE
+	    WHEN city IS NULL THEN country
+	    ELSE city
+	END;
 
   
   
